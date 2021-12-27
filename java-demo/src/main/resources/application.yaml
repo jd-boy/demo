@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: jz-demo
+
+management:
+  server:
+    port: 8001
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+      tags: ${spring.application.name}

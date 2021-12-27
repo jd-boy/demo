@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation 'org.apache.lucene:lucene-core:8.11.0'
+    implementation 'org.apache.lucene:lucene-analyzers:3.6.2'
+    implementation 'org.apache.lucene:lucene-highlighter:8.11.0'
+    implementation 'org.apache.lucene:lucene-memory:8.11.0'
+    // 中文分词器
+    implementation 'org.apache.lucene:lucene-analyzers-smartcn:8.11.0'
+    // 查询解析器
+    implementation 'org.apache.lucene:lucene-queryparser:8.11.0'
+
+    implementation 'io.vertx:vertx-core:4.2.1'
+    implementation 'io.vertx:vertx-web:4.2.1'
+
+    implementation 'com.lmax:disruptor:3.4.2'
+
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+}
+
+configurations.all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}

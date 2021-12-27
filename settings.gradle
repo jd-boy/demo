@@ -1,0 +1,6 @@
+rootProject.name = 'demo'
+include 'redis-demo'
+include 'java-demo'
+include 'kafka-demo'
+include 'database-demo'
+

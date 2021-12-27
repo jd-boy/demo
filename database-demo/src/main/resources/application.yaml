@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: jz-demo-database
+  datasource:
+    url: jdbc:mysql://10.16.2.217:3306/mgr_jz?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    hikari:
+      maximum-pool-size: 2
+      minimum-idle: 1
