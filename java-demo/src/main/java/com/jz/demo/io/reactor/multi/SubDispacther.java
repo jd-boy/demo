@@ -8,11 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * 子调度器
@@ -20,23 +18,20 @@ import java.util.concurrent.*;
 @Slf4j
 public class SubDispacther extends AbstractDispacther {
 
-    private final SocketHandler socketHandler = new SocketHandlerImpl();
+    private volatile boolean registering = false;
 
-    private final Queue<SocketChannel> socketChannelCache = new ConcurrentLinkedQueue<>();
-//    private final Executor acceptWorker = Executors.newSingleThreadExecutor();
+    private final Executor registerExecutor = Executors.newSingleThreadExecutor();
 
     @Override
     public void run() {
         System.out.printf("%s start running\n", getName());
         while (!Thread.interrupted()) {
             try {
-                int num = selector.select();
-                if (num <= 0) {
-                    SocketChannel socketChannel = null;
-                    while ((socketChannel = socketChannelCache.poll()) != null) {
-                        socketChannel.configureBlocking(false);
-                        socketChannel.register(selector, SelectionKey.OP_READ);
-                    }
+                if (registering) {
+                    continue;
+                }
+                if (selector.select() <= 0) {
+                    while (registering);
                     continue;
                 }
                 Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
@@ -52,26 +47,27 @@ public class SubDispacther extends AbstractDispacther {
     }
 
     protected void dispatch(SelectionKey selectionKey) throws Exception {
+        SocketHandler socketHandler = (SocketHandler) selectionKey.attachment();
         if (selectionKey.isReadable()) {
-            socketHandler.read(selectionKey);
+            socketHandler.read();
         } else if (selectionKey.isWritable()) {
-            socketHandler.write(selectionKey);
+            socketHandler.write();
         }
     }
 
     public void addSocketChannel(SocketChannel socketChannel) throws IOException {
-        socketChannelCache.add(socketChannel);
-        selector.wakeup();
-//        acceptWorker.execute(() -> {
-//            try {
-//                socketChannel.configureBlocking(false);
-//                socketChannel.register(selector, SelectionKey.OP_READ);
-//                selector.wakeup();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-        System.out.println("SubDispacther add SocketChannel");
+        registerExecutor.execute(() -> {
+            try {
+                registering = true;
+                selector.wakeup();
+                socketChannel.configureBlocking(false);
+                SelectionKey selectionKey = socketChannel.register(selector, SelectionKey.OP_READ);
+                selectionKey.attach(new SocketHandlerImpl(selectionKey));
+                registering = false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }

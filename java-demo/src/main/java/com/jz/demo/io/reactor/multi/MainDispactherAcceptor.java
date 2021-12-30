@@ -2,6 +2,7 @@ package com.jz.demo.io.reactor.multi;
 
 import com.jz.demo.io.reactor.AbstractDispacther;
 import com.jz.demo.io.reactor.Acceptor;
+import com.jz.demo.io.reactor.NamedThreadFactory;
 
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
@@ -29,7 +30,7 @@ public class MainDispactherAcceptor implements Acceptor {
             this.dispactherNum = dispactherNum;
         }
         this.dispacthers = new SubDispacther[this.dispactherNum];
-        this.executor = Executors.newFixedThreadPool(this.dispactherNum);
+        this.executor = Executors.newFixedThreadPool(this.dispactherNum, new NamedThreadFactory("SubDispacther-thread-pool"));
         initSubDispacther();
     }
 
@@ -45,7 +46,6 @@ public class MainDispactherAcceptor implements Acceptor {
     public void accept(SelectionKey selectionKey) throws Exception {
         ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
         SocketChannel acceptSocketChannel = serverSocketChannel.accept();
-        System.out.println("Main dispacther accept event");
         int next = (int) (acceptCount.getAndIncrement() % dispactherNum);
         dispacthers[next].addSocketChannel(acceptSocketChannel);
     }

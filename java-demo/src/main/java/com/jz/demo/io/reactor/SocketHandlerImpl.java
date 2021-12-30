@@ -4,38 +4,53 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SocketHandlerImpl implements SocketHandler {
 
+    private static final int DEFAULT_BYTE_BUFFER_CAPACITY = 512;
+
     private final Executor executor;
 
-    private final AtomicInteger count = new AtomicInteger();
+    private final ByteBuffer byteBuffer;
 
-    public SocketHandlerImpl() {
-        this(new CurrentThreadExecutor());
+    private final SelectionKey selectionKey;
+
+    public SocketHandlerImpl(SelectionKey selectionKey) {
+        this(selectionKey, new CurrentThreadExecutor(), DEFAULT_BYTE_BUFFER_CAPACITY);
     }
 
-    public SocketHandlerImpl(Executor executor) {
+    public SocketHandlerImpl(SelectionKey selectionKey, Executor executor) {
+        this(selectionKey, executor, DEFAULT_BYTE_BUFFER_CAPACITY);
+    }
+
+    public SocketHandlerImpl(SelectionKey selectionKey, Executor executor, int capacity) {
+        if (selectionKey == null) {
+            throw new IllegalArgumentException("SelectionKey cannot be null");
+        }
         if (executor == null) {
             throw new IllegalArgumentException("Executor cannot be null");
         }
+        this.selectionKey = selectionKey;
         this.executor = executor;
+        this.byteBuffer = ByteBuffer.allocate(capacity);
     }
 
     @Override
-    public void read(SelectionKey selectionKey) {
+    public void read() {
         try {
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
+            byteBuffer.clear();
             SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
-            int len = socketChannel.read(buffer);
+            int len = socketChannel.read(byteBuffer);
             if (len > 0) {
-                buffer.flip();
-                executor.execute(new Processor(selectionKey, buffer.array(), count.getAndIncrement()));
-                buffer.clear();
+                byteBuffer.flip();
+                process(byteBuffer.array());
             } else if (len < 0) {
-                System.out.println("关闭连接：" + socketChannel);
+                // 小于0时，客户端关闭input
                 selectionKey.cancel();
                 socketChannel.close();
             }
@@ -44,15 +59,24 @@ public class SocketHandlerImpl implements SocketHandler {
         }
     }
 
+    private void process(byte[] bytes) {
+        CompletableFuture.supplyAsync(new DefaultProcessor(bytes), executor)
+                .thenAccept(result -> {
+                    byteBuffer.put(result);
+                    // 添加对写事件监听
+                    int ops = selectionKey.interestOps();
+                    selectionKey.interestOps(ops | SelectionKey.OP_WRITE);
+                    selectionKey.selector().wakeup();
+                });
+    }
+
     @Override
-    public void write(SelectionKey selectionKey) throws IOException {
+    public void write() throws IOException {
         SocketChannel writeSocketChannel = (SocketChannel) selectionKey.channel();
-        byte[] bytes = (byte[]) selectionKey.attachment();
-//        System.out.println("写出数据");
-//        System.out.println(new String(bytes, StandardCharsets.UTF_8));
-        writeSocketChannel.write(ByteBuffer.wrap(bytes));
-        int ops = selectionKey.interestOps();
+        byteBuffer.rewind();
+        writeSocketChannel.write(byteBuffer);
         // 取消监听写事件
+        int ops = selectionKey.interestOps();
         selectionKey.interestOps(ops ^ SelectionKey.OP_WRITE);
     }
 

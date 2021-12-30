@@ -10,12 +10,12 @@ public class ReactorMain {
     private static int port = 8888;
 
     public static void main(String[] args) throws Exception {
-//        singleReactorRun();
-        multiReactorRun();
+//        singleReactorRun(-1);
+        multiReactorRun(4);
     }
 
-    private static void singleReactorRun() throws IOException {
-        Thread dispacther = new Thread(new SingleDispacther(port, 16));
+    private static void singleReactorRun(int processorNum) throws IOException {
+        Thread dispacther = new Thread(new SingleDispacther(port, processorNum));
         dispacther.start();
         try {
             dispacther.join();
@@ -24,8 +24,8 @@ public class ReactorMain {
         }
     }
 
-    private static void multiReactorRun() throws IOException {
-        AbstractDispacther dispacther = new MainDispacther(port, 8);
+    private static void multiReactorRun(int subDispactherNum) throws IOException {
+        AbstractDispacther dispacther = new MainDispacther(port, subDispactherNum);
         dispacther.setName("MainDispacther");
         Thread thread = new Thread(dispacther);
         thread.start();
