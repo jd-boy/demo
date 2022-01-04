@@ -12,9 +12,9 @@ public class DefaultProcessor extends Processor {
 
     @Override
     public byte[] process() {
+        System.out.println("接收到：" + new String(data));
         IOUtils.doSomething();
-        byte[] result = IOUtils.buildResp("{'b': '响应：HelloWord'}").getBytes(StandardCharsets.UTF_8);
-        return result;
+        return IOUtils.buildResp("{'b': '响应：HelloWord'}").getBytes(StandardCharsets.UTF_8);
     }
 
 }

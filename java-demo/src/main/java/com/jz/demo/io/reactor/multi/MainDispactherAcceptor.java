@@ -47,6 +47,7 @@ public class MainDispactherAcceptor implements Acceptor {
         ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
         SocketChannel acceptSocketChannel = serverSocketChannel.accept();
         int next = (int) (acceptCount.getAndIncrement() % dispactherNum);
+//        (val & -val) == val
         dispacthers[next].addSocketChannel(acceptSocketChannel);
     }
 

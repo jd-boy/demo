@@ -46,6 +46,8 @@ public class SocketHandlerImpl implements SocketHandler {
             byteBuffer.clear();
             SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
             int len = socketChannel.read(byteBuffer);
+            //TODO 一次读取完毕
+            System.out.println(len);
             if (len > 0) {
                 byteBuffer.flip();
                 process(byteBuffer.array());

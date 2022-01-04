@@ -46,7 +46,7 @@ public class TestHandler implements Handler<RoutingContext> {
             if (true) {
 //                throw new RuntimeException("kfk");
             }
-            Thread.sleep(5000);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

@@ -1,7 +1,5 @@
 package com.jz.demo.io;
 
-import com.jz.demo.io.reactor.Processor;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -9,10 +7,8 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-import java.util.Set;
 
 public class NIOTest {
 
@@ -44,7 +40,7 @@ public class NIOTest {
     }
 
     private static void readEvent(SelectionKey selectionKey) throws IOException {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        ByteBuffer buffer = ByteBuffer.allocate(64);
         SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
         int len = socketChannel.read(buffer);
         if (len > 0) {
@@ -56,9 +52,11 @@ public class NIOTest {
             selectionKey.interestOps(ops | SelectionKey.OP_WRITE);
             selectionKey.selector().wakeup();
         } else if (len < 0) {
-//            System.out.println("关闭连接：" + socketChannel);
+            System.out.println("关闭连接");
             selectionKey.cancel();
             socketChannel.close();
+        } else {
+            System.out.println("len == 0");
         }
     }
 
@@ -78,12 +76,11 @@ public class NIOTest {
     }
 
     private static void acceptEvent(SelectionKey selectionKey) throws IOException {
-        System.out.println("accept 事件");
         ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
         SocketChannel acceptSocketChannel = serverSocketChannel.accept();
-        System.out.println(acceptSocketChannel.getRemoteAddress());
         acceptSocketChannel.configureBlocking(false);
         acceptSocketChannel.register(selector, SelectionKey.OP_READ);
+        System.out.println("accept " + acceptSocketChannel.getRemoteAddress());
     }
 
 }

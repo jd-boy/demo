@@ -13,12 +13,12 @@ public class VertxConfigration {
 
     private static final Vertx vertx = Vertx.vertx(new VertxOptions()
             .setInternalBlockingPoolSize(11)
-//            .setMaxEventLoopExecuteTime(TimeUnit.SECONDS.toNanos(10))
+            .setMaxEventLoopExecuteTime(TimeUnit.SECONDS.toNanos(10))
             .setEventLoopPoolSize(10));
 
     static {
         DeploymentOptions options = new DeploymentOptions()
-                .setInstances(2)
+                .setInstances(4)
                 .setConfig(new JsonObject().put("http.path", "/test")
                         .put("http.port", 8088));
         vertx.deployVerticle("com.jz.demo.vertx.TestVerticle", options, System.out::println);
