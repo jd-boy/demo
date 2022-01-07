@@ -1,0 +1,12 @@
+ext {
+    vertxVersion = '4.2.1'
+}
+
+dependencies {
+    implementation "io.vertx:vertx-core:${vertxVersion}"
+    implementation "io.vertx:vertx-web:${vertxVersion}"
+
+    compileOnly "io.vertx:vertx-micrometer-metrics:${vertxVersion}"
+    compileOnly "io.micrometer:micrometer-registry-jmx:1.8.1"
+    compileOnly "io.micrometer:micrometer-registry-prometheus"
+}
