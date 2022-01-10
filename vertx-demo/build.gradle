@@ -3,10 +3,12 @@ ext {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     implementation "io.vertx:vertx-core:${vertxVersion}"
     implementation "io.vertx:vertx-web:${vertxVersion}"
 
     compileOnly "io.vertx:vertx-micrometer-metrics:${vertxVersion}"
-    compileOnly "io.micrometer:micrometer-registry-jmx:1.8.1"
+//    compileOnly "io.micrometer:micrometer-registry-jmx:1.8.1"
     compileOnly "io.micrometer:micrometer-registry-prometheus"
 }

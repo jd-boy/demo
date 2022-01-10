@@ -20,7 +20,7 @@ public class PrometheusController {
 
     @PostConstruct
     private void init() {
-        counter = Counter.build().name("metrics_requests")
+        counter = Counter.build().name("demo_server_request_count")
                 .labelNames("path", "methods")
                 .help("请求总数")
                 .register(collectorRegistry);

@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    // lucene start
     implementation 'org.apache.lucene:lucene-core:8.11.0'
     implementation 'org.apache.lucene:lucene-analyzers:3.6.2'
     implementation 'org.apache.lucene:lucene-highlighter:8.11.0'
@@ -11,6 +12,7 @@ dependencies {
     implementation 'org.apache.lucene:lucene-analyzers-smartcn:8.11.0'
     // 查询解析器
     implementation 'org.apache.lucene:lucene-queryparser:8.11.0'
+    // lucene end
 
     implementation 'com.lmax:disruptor:3.4.2'
 
@@ -21,6 +23,8 @@ dependencies {
 
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+    implementation 'io.netty:netty-all:4.1.72.Final'
 }
 
 configurations.all {

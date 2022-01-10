@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: demo-vertx
+
+management:
+  server:
+    port: 8001
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+      tags: ${spring.application.name}
