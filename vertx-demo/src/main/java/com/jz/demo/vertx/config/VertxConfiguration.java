@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class VertxConfiguration implements ApplicationListener<ContextRefreshedEvent> {
 
-    private static final Vertx vertx = Vertx.vertx(new VertxOptions()
+    public static final Vertx vertx = Vertx.vertx(new VertxOptions()
             .setMetricsOptions(micrometerMetricsOptions())
             .setInternalBlockingPoolSize(11)
             .setMaxEventLoopExecuteTime(TimeUnit.SECONDS.toNanos(10))

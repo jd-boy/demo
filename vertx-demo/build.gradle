@@ -7,8 +7,12 @@ dependencies {
 
     implementation "io.vertx:vertx-core:${vertxVersion}"
     implementation "io.vertx:vertx-web:${vertxVersion}"
+    implementation "io.vertx:vertx-web-client:${vertxVersion}"
 
     compileOnly "io.vertx:vertx-micrometer-metrics:${vertxVersion}"
 //    compileOnly "io.micrometer:micrometer-registry-jmx:1.8.1"
     compileOnly "io.micrometer:micrometer-registry-prometheus"
+
+
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.69.Final:osx-x86_64'
 }
