@@ -1,7 +1,6 @@
 package com.jz.demo.vertx.controller;
 
 import com.jz.demo.vertx.config.VertxConfiguration;
-import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import org.springframework.web.bind.annotation.GetMapping;
