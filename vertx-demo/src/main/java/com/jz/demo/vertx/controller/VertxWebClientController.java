@@ -1,20 +1,31 @@
 package com.jz.demo.vertx.controller;
 
 import com.jz.demo.vertx.config.VertxConfiguration;
+import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 @RequestMapping(value = "/vertx/client")
 public class VertxWebClientController {
 
-    private WebClient webClient = WebClient.create(VertxConfiguration.vertx,
-            new WebClientOptions()
-                    .setKeepAlive(true));
+    @Autowired
+    private Vertx vertx;
+
+    private WebClient webClient;
+
+    @PostConstruct
+    public void init() {
+        webClient = WebClient.create(vertx,
+                new WebClientOptions().setKeepAlive(true));
+    }
 
     @GetMapping(value = "/test")
     public String test(@RequestParam int timeout) throws InterruptedException {
