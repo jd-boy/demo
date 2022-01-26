@@ -1,7 +1,6 @@
 spring:
   application:
     name: jz-demo
-
 management:
   server:
     port: 8001
@@ -18,3 +17,5 @@ management:
       prometheus:
         enabled: true
       tags: ${spring.application.name}
+server:
+  port: 8088

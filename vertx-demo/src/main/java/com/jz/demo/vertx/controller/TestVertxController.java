@@ -1,21 +1,29 @@
-package com.jz.demo.vertx;
+package com.jz.demo.vertx.controller;
 
-import io.vertx.core.*;
+import com.jz.demo.vertx.core.AbstractVertxController;
+import com.jz.demo.vertx.core.VertxController;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import org.springframework.context.annotation.Scope;
 
-public class TestHandler implements Handler<RoutingContext> {
+/**
+ * @Auther jd
+ */
+@Scope("prototype")
+@VertxController(path = "/test",
+    port = "8088",
+    instanceNum = "4"
+)
+public class TestVertxController extends AbstractVertxController {
 
-    private final WorkerExecutor workerExecutor;
+  public TestVertxController(Router router) {
+    super(router);
+  }
 
-
-    public TestHandler(WorkerExecutor workerExecutor) {
-        this.workerExecutor = workerExecutor;
-    }
-
-    @Override
-    public void handle(RoutingContext context) {
-        JsonObject json = context.getBodyAsJson();
+  @Override
+  public void handle(RoutingContext context) {
+    JsonObject json = context.getBodyAsJson();
 //        MultiMap queryParams = context.queryParams();
 //        queryParams.forEach(System.out::println);
 //        System.out.println(Thread.currentThread().getName());
@@ -42,17 +50,17 @@ public class TestHandler implements Handler<RoutingContext> {
 //            }
 //        });
 //        System.out.println(Thread.currentThread().getName() + "  流程完毕");
-        try {
-            if (true) {
+    try {
+      if (true) {
 //                throw new RuntimeException("kfk");
-            }
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        if (!context.response().ended()) {
-            context.response().end("结束", "utf-8");
-        }
+      }
+      Thread.sleep(10);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
     }
+    if (!context.response().ended()) {
+      context.response().end("结束", "utf-8");
+    }
+  }
 
 }

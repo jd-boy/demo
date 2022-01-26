@@ -15,10 +15,6 @@ public class Test {
     private static final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws Exception {
-        String str = "1234";
-        ByteBuffer byteBuffer = ByteBuffer.allocate(4);
-        byteBuffer.put(str.getBytes(StandardCharsets.UTF_8));
-
-        System.out.println(byteBuffer.position() == byteBuffer.capacity());
+        System.out.println(Runtime.getRuntime().availableProcessors());
     }
 }
