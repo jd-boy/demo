@@ -2,6 +2,18 @@ spring:
   application:
     name: demo-vertx
 
+vertx:
+  datasource:
+    host: ${DATABASE_HOST:10.16.2.5}
+    port: ${DATABASE_PORT:3306}
+    database: ${DATABASE_NAME:static-tagging}
+    user: ${DATABASE_USER:static-tagging}
+    password: ${DATABASE_PASSWORD:static-tagging}
+    poolMaxSize: ${DATABASE_POOL_MAX_SIZE:600}
+    connectTimeout: ${DATABASE_CONNECT_TIMEOUT:100}
+  redis:
+    uris: ${REDIS_URIS:redis://127.0.0.1:7002}
+
 management:
   server:
     port: 8001

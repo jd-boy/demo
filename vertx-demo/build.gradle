@@ -8,6 +8,8 @@ dependencies {
     implementation "io.vertx:vertx-core:${vertxVersion}"
     implementation "io.vertx:vertx-web:${vertxVersion}"
     implementation "io.vertx:vertx-web-client:${vertxVersion}"
+    implementation "io.vertx:vertx-mysql-client:${vertxVersion}"
+    implementation "io.vertx:vertx-redis-client:${vertxVersion}"
 
     compileOnly "io.vertx:vertx-micrometer-metrics:${vertxVersion}"
 //    compileOnly "io.micrometer:micrometer-registry-jmx:1.8.1"

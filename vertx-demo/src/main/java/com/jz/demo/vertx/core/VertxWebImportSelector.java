@@ -1,4 +1,4 @@
-package com.jz.demo.vertx.config;
+package com.jz.demo.vertx.core;
 
 import com.jz.demo.vertx.core.AbstractVertxController;
 import com.jz.demo.vertx.core.EnableVertxWeb;

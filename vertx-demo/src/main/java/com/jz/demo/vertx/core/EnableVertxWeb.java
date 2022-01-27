@@ -1,6 +1,5 @@
 package com.jz.demo.vertx.core;
 
-import com.jz.demo.vertx.config.VertxWebImportSelector;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

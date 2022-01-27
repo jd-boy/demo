@@ -5,12 +5,10 @@ import com.jz.demo.vertx.core.VertxController;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import org.springframework.context.annotation.Scope;
 
 /**
  * @Auther jd
  */
-@Scope("prototype")
 @VertxController(path = "/test",
     port = "8088",
     instanceNum = "4"
