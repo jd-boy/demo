@@ -2,7 +2,10 @@ spring:
   application:
     name: jz-demo-kafka
   kafka:
+#    bootstrap-servers: 172.18.20.14:19092
     bootstrap-servers: 127.0.0.1:9092
+    listener:
+      type: batch
     producer:
       # 写入失败时，重试次数。当leader节点失效，一个repli节点会替代成为leader节点，此时可能出现写入失败，
       # 当retris为0时，produce不会重复。retirs重发，此时repli节点完全成为leader节点，不会产生消息丢失。

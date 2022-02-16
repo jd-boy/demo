@@ -1,8 +1,10 @@
 package com.jz.demo.kafka;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
@@ -15,6 +17,9 @@ import org.springframework.kafka.listener.ContainerProperties.AckMode;
 
 @Configuration
 public class KafkaConfiguration {
+
+    @Value("${spring.kafka.bootstrap-servers}")
+    private List<String> bootstrapServers;
 
     @Bean
     KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Object>> kafkaListenerContainerFactory() {
@@ -31,7 +36,7 @@ public class KafkaConfiguration {
     private ConsumerFactory<String, Object> consumerFactory() {
         Map<String, Object> configs = new HashMap<>();
         // kafka 地址
-        configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        configs.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         // 是否自动提交
         configs.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         // 允许自动创建topic

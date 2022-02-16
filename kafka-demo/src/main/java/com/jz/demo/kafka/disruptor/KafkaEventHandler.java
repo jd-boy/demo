@@ -18,7 +18,7 @@ public class KafkaEventHandler implements EventHandler<KafaEvent>, WorkHandler<K
         Map<String, Object> config = new HashMap<>();
 
         // 连接地址
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "172.18.20.14:19092");
         // ACK
         config.put(ProducerConfig.ACKS_CONFIG, "all");
         // 相应超时.

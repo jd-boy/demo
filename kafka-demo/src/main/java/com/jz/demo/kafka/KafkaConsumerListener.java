@@ -21,4 +21,12 @@ public class KafkaConsumerListener {
             log.info("topic test1, msg:{}", record.value());
         });
     }
+
+    @KafkaListener(topics = "test2")
+    public void test2Topic(List<ConsumerRecord<String, Object>> records) {
+        records.forEach(record -> {
+            log.info("topic test2, msg:{}", record.value());
+        });
+    }
+
 }
