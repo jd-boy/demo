@@ -88,7 +88,7 @@ public class VertxWebImportSelector implements ImportSelector, ResourceLoaderAwa
         handler -> {
           if (handler.succeeded()) {
             String description = vertxController.description();
-            log.info("{}发布成功", "".equals(description) ? beanClazz.getName() : description);
+            log.info("{}发布成功. 实例数量：{}", "".equals(description) ? beanClazz.getName() : description, instanceNum);
           } else {
             throw new RuntimeException(handler.cause());
           }
