@@ -4,4 +4,5 @@ include 'java-demo'
 include 'kafka-demo'
 include 'database-demo'
 include 'vertx-demo'
+include 'resilience4j'
 
