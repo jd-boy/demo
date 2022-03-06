@@ -15,6 +15,7 @@ import io.vertx.micrometer.backends.BackendRegistries;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -77,22 +78,40 @@ public class VertxWebImportSelector implements ImportSelector, ResourceLoaderAwa
   private void deploymentVerticle(ContextRefreshedEvent event, Class<? extends Verticle> beanClazz) {
     VertxController vertxController = AnnotatedElementUtils
         .getMergedAnnotation(beanClazz, VertxController.class);
-    Environment environment = event.getApplicationContext().getEnvironment();
-    Integer instanceNum = Integer
-        .valueOf(environment.resolvePlaceholders(vertxController.instanceNum()));
+    int instanceNum = SpringUtil.resolvePlaceholdersToInteger(vertxController.instanceNum());
     DeploymentOptions options = new DeploymentOptions()
         .setInstances(instanceNum);
     event.getApplicationContext().getBean(Vertx.class)
         .deployVerticle(() -> event.getApplicationContext().getBean(beanClazz),
-        options,
-        handler -> {
-          if (handler.succeeded()) {
-            String description = vertxController.description();
-            log.info("{}发布成功. 实例数量：{}", "".equals(description) ? beanClazz.getName() : description, instanceNum);
-          } else {
-            throw new RuntimeException(handler.cause());
-          }
-        });
+            options,
+            handler -> {
+              if (handler.succeeded()) {
+                deployVerticleLog(vertxController, beanClazz.getName());
+              } else {
+                throw new RuntimeException(handler.cause());
+              }
+            });
+  }
+
+  private void deployVerticleLog(VertxController vertxController, String className) {
+    String description = vertxController.description();
+    Double permitsPerSecond = SpringUtil.resolvePlaceholdersToDouble(vertxController.permitsPerSecond());
+    Long acquirePermitsTimeoutNanos = SpringUtil.resolvePlaceholdersToLong(vertxController.acquirePermitsTimeoutNanos());
+    StringBuilder builder = new StringBuilder();
+    builder.append("".equals(description) ? className : description)
+        .append("发布成功. ")
+        .append("端口：")
+        .append(SpringUtil.resolvePlaceholdersToInteger(vertxController.port()))
+        .append(",Path：")
+        .append(SpringUtil.resolvePlaceholders(vertxController.path()))
+        .append(",实例数量：")
+        .append(SpringUtil.resolvePlaceholdersToInteger(vertxController.instanceNum()))
+        .append(",限流：")
+        .append(Objects.isNull(permitsPerSecond) ? "未开启" : permitsPerSecond);
+    if (Objects.nonNull(permitsPerSecond)) {
+      builder.append(Objects.isNull(acquirePermitsTimeoutNanos) ? "" : acquirePermitsTimeoutNanos);
+    }
+    log.info(builder.toString());
   }
 
   private void updateVertxMetrics() {
