@@ -2,11 +2,8 @@ package com.jz.demo.resilience4j.controller;
 
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.ratelimiter.RequestNotPermitted;
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,31 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/resilience4j")
-public class TestController {
+public class CircuitBreakerController {
 
-  @RateLimiter(name = "test", fallbackMethod = "rateLimiterFallback")
-  @GetMapping(value = "/rate-limiter")
-  public Object testRateLimiter() {
-    return "rate-limiter";
-  }
-
-  @CircuitBreaker(name = "test", fallbackMethod = "circuitBreakerFallback")
-  @GetMapping(value = "/circuit-breaker")
+  @CircuitBreaker(name = "backendA", fallbackMethod = "circuitBreakerFallback")
+  @GetMapping(value = "/api/resilience4j/circuit-breaker")
   public Object testCircuitBreaker() {
     if (true) {
       throw new RuntimeException("测试熔断异常");
     }
     return "circuit-breake";
-  }
-
-  private Object rateLimiterFallback(Throwable e) {
-    if (e instanceof RequestNotPermitted) {
-      log.warn("超过设定qps Fallback");
-      return "超过设定qps";
-    }
-    log.warn("测试限流接口异常");
-    return "测试限流接口异常";
   }
 
   private Object circuitBreakerFallback(RuntimeException e) {

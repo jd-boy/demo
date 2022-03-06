@@ -1,15 +1,17 @@
+# 限流配置
 resilience4j.ratelimiter:
   instances:
-    test:
+    backendA:
       limitForPeriod: 1
       limitRefreshPeriod: 5s
       timeoutDuration: 200ms
       registerHealthIndicator: true
       eventConsumerBufferSize: 100
 
+# 熔断配置
 resilience4j.circuitbreaker:
   instances:
-    test:
+    backendA:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
@@ -19,3 +21,41 @@ resilience4j.circuitbreaker:
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
 #      recordFailurePredicate: io.github.robwin.exception.RecordFailurePredicate
+
+# 信号量隔离
+resilience4j.bulkhead:
+  instances:
+    backendA:
+      maxConcurrentCalls: 2   # 最大并发量
+    backendB:
+      maxWaitDuration: 10ms    # 达到最大并发量后等待时长
+      maxConcurrentCalls: 20   # 最大并发量
+# 线程池隔离
+resilience4j.thread-pool-bulkhead:
+  instances:
+    backendC:
+      maxThreadPoolSize: 1
+      coreThreadPoolSize: 1
+      queueCapacity: 1
+
+# 重试
+resilience4j.retry:
+  instances:
+    backendA:
+      maxAttempts: 3
+      waitDuration: 10ms
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+#      retryExceptions:
+#        - org.springframework.web.client.HttpServerErrorException
+#        - java.io.IOException
+      ignoreExceptions:
+        - com.jz.demo.resilience4j.exceptions.IgnoreException
+    backendB:
+      maxAttempts: 3
+      waitDuration: 10s
+      retryExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+      ignoreExceptions:
+        - com.jz.demo.resilience4j.exceptions.IgnoreException
