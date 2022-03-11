@@ -1,6 +1,5 @@
-package com.jz.demo.jpa.domain;
+package com.jz.demo.jpa.domain.permission;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;

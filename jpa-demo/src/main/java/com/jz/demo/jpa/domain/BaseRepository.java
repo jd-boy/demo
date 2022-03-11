@@ -1,4 +1,4 @@
-package com.jz.demo.jpa.domain.repository;
+package com.jz.demo.jpa.domain;
 
 import java.io.Serializable;
 import org.springframework.data.jpa.repository.JpaRepository;

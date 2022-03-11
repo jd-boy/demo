@@ -1,5 +1,6 @@
-package com.jz.demo.jpa.domain;
+package com.jz.demo.jpa.domain.permission;
 
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,17 +14,17 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "cfg_router")
-public class Router {
+@Table(name = "cfg_role")
+public class Role {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column
-  private String routing;
+  @Column(name = "`key`", unique = true, nullable = false)
+  private String key;
 
-  @Column
-  private String description;
+  @Column(nullable = false)
+  private String name;
 
 }

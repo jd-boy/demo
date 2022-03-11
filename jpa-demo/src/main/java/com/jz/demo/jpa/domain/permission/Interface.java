@@ -1,4 +1,4 @@
-package com.jz.demo.jpa.domain;
+package com.jz.demo.jpa.domain.permission;
 
 import com.jz.demo.jpa.domain.enumeration.RequestMethod;
 import javax.persistence.Column;
@@ -27,7 +27,7 @@ public class Interface {
   @Enumerated(EnumType.STRING)
   private RequestMethod method;
 
-  @Column
+  @Column(nullable = false)
   private String path;
 
   @Column

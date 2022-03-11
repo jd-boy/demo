@@ -1,5 +1,6 @@
-package com.jz.demo.jpa.domain;
+package com.jz.demo.jpa.domain.permission;
 
+import com.jz.demo.jpa.constant.DDLConstants;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +38,7 @@ public class Menu {
   @Column
   private Long parentId;
 
-  @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP()", nullable = false)
+  @Column(columnDefinition = DDLConstants.DATETIME_DEFAULT_CURRENT_TIMESTAMP, nullable = false)
   private LocalDateTime createTime;
 
 }
