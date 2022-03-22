@@ -15,6 +15,6 @@ public class Test {
     private static final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws Exception {
-        System.out.println("\\s");
+        System.out.println(Double.valueOf("1647512773856"));
     }
 }

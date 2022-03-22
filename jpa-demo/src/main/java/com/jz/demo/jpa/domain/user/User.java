@@ -3,10 +3,16 @@ package com.jz.demo.jpa.domain.user;
 import com.jz.demo.jpa.constant.DDLConstants;
 import com.jz.demo.jpa.domain.permission.Permission;
 import com.jz.demo.jpa.domain.permission.Role;
+import com.jz.demo.jpa.domain.usergroup.UserGroup;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,14 +20,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import lombok.Data;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @Auther jd
  */
 @Data
 @Entity
+@Table(name = "def_user")
 public class User {
 
   @Id
@@ -38,12 +47,15 @@ public class User {
   private String password;
 
   @ManyToOne
-  @JoinColumn(name = "user_group_id", nullable = false)
+  @JoinColumn(name = "user_group_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
   private UserGroup userGroup;
 
-  @ManyToOne
-  @JoinColumn(name = "role_id", nullable = false)
-  private Role role;
+  @ManyToMany
+  @JoinTable(name = "rel_user_role", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id"}),
+      joinColumns = @JoinColumn(name = "role_id"),
+      inverseJoinColumns = @JoinColumn(name = "user_id")
+  )
+  private List<Role> roles;
 
   @ManyToMany
   @JoinTable(name = "cfg_rel_user_permission",
@@ -58,5 +70,20 @@ public class User {
 
   @Column(columnDefinition = DDLConstants.DATETIME_DEFAULT_CURRENT_TIMESTAMP, nullable = false)
   private LocalDateTime createTime;
+
+  public List<Permission> getAllPermissions() {
+    List<Permission> allPermissions = new ArrayList<>();
+    if (!CollectionUtils.isEmpty(roles)) {
+      allPermissions.addAll(roles.stream()
+          .map(Role::getPermissions)
+          .flatMap(Collection::stream)
+          .collect(Collectors.toList()));
+    }
+    if (!CollectionUtils.isEmpty(permissions)) {
+      allPermissions.addAll(permissions);
+    }
+    return allPermissions.stream()
+        .distinct().collect(Collectors.toList());
+  }
 
 }

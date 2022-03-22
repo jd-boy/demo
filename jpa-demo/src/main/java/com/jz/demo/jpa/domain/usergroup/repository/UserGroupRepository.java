@@ -1,7 +1,7 @@
-package com.jz.demo.jpa.domain.user.repository;
+package com.jz.demo.jpa.domain.usergroup.repository;
 
 import com.jz.demo.jpa.domain.BaseRepository;
-import com.jz.demo.jpa.domain.user.UserGroup;
+import com.jz.demo.jpa.domain.usergroup.UserGroup;
 import org.springframework.stereotype.Repository;
 
 /**

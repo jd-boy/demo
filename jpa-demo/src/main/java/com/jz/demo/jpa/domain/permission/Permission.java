@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @Auther jd
@@ -19,6 +20,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "cfg_permission")
+@EqualsAndHashCode(of = {"id", "key"})
 public class Permission {
 
   @Id
@@ -30,6 +32,9 @@ public class Permission {
 
   @Column(nullable = false)
   private String name;
+
+  @Column(nullable = false)
+  private String description;
 
   @ManyToMany
   @JoinTable(name = "cfg_rel_permission_interface",

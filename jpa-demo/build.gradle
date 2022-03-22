@@ -1,7 +1,18 @@
+ext {
+    mapstructVersion = '1.4.2.Final'
+}
+
 dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-security"
 
     implementation 'mysql:mysql-connector-java:8.0.28'
+
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    implementation "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
 }
