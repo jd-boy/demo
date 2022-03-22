@@ -11,9 +11,9 @@ dependencies {
     implementation "io.vertx:vertx-mysql-client:${vertxVersion}"
     implementation "io.vertx:vertx-redis-client:${vertxVersion}"
 
-    compileOnly "io.vertx:vertx-micrometer-metrics:${vertxVersion}"
+    implementation "io.vertx:vertx-micrometer-metrics:${vertxVersion}"
 //    compileOnly "io.micrometer:micrometer-registry-jmx:1.8.1"
-    compileOnly "io.micrometer:micrometer-registry-prometheus"
+    implementation "io.micrometer:micrometer-registry-prometheus"
 
     implementation 'com.google.guava:guava:31.0.1-jre'
 
