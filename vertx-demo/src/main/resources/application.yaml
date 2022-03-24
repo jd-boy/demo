@@ -13,6 +13,7 @@ vertx:
     connectTimeout: ${DATABASE_CONNECT_TIMEOUT:100}
   redis:
     uris: ${REDIS_URIS:redis://127.0.0.1:7002}
+    password: ${REDIS_PASSWORD:}
 
 management:
   server:
