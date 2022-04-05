@@ -14,24 +14,30 @@ allprojects {
 	apply plugin: 'idea'
 	apply plugin: 'java'
 	apply plugin: 'java-library'
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
 
 	repositories {
 		mavenCentral()
 	}
 
 	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter'
-		implementation 'org.springframework.boot:spring-boot-starter-web'
-
-		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 		compileOnly 'org.projectlombok:lombok:1.18.18'
 		annotationProcessor 'org.projectlombok:lombok:1.18.18'
 	}
 
-	test {
-		useJUnitPlatform()
+	if (project.name != 'guice-demo') {
+		apply plugin: 'org.springframework.boot'
+		apply plugin: 'io.spring.dependency-management'
+
+		dependencies {
+			implementation 'org.springframework.boot:spring-boot-starter'
+			implementation 'org.springframework.boot:spring-boot-starter-web'
+
+			testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		}
+
+		test {
+			useJUnitPlatform()
+		}
 	}
 
 }
