@@ -35,7 +35,7 @@ public class TestAspect {
   @SneakyThrows
   @After("execution(public * com.jz.demo.aop.AopTestController.get())")
   public void after(JoinPoint joinPoint) {
-    Thread.sleep(5000);
+//    Thread.sleep(5000);
     System.out.println("after....");
   }
 
