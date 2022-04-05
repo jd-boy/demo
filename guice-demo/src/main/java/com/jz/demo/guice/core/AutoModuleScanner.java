@@ -18,7 +18,7 @@ public class AutoModuleScanner {
 
   private static String[] acceptPackages = {"com.jz.demo.guice"};
 
-  private static String[] rejectClasses = {};
+  private static String[] rejectClasses = {"*Main"};
 
   private volatile static Injector injector;
 
