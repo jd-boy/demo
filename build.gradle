@@ -5,14 +5,17 @@ plugins {
 }
 //sourceCompatibility = '11'
 
-
 allprojects {
 
 	group = 'com.jz.example'
 	version = '0.0.1-SNAPSHOT'
 
+}
+
+subprojects {
+
 	apply plugin: 'idea'
-	apply plugin: 'java'
+	apply plugin: 'java'   // 放到子模块中父模块不会生成 src目录
 	apply plugin: 'java-library'
 
 	repositories {
@@ -39,5 +42,4 @@ allprojects {
 			useJUnitPlatform()
 		}
 	}
-
 }
