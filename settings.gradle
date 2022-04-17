@@ -7,4 +7,5 @@ include 'vertx-demo'
 include 'resilience4j'
 include 'jpa-demo'
 include 'guice-demo'
+include 'sentinel-demo'
 
