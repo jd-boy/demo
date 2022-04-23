@@ -1,0 +1,28 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: sentinel-demo
+  cloud:
+    sentinel:
+      # 取消控制台懒加载
+      eager: true
+      transport:
+        port: 8731
+        # 控制台地址
+        dashboard: 127.0.0.1:8080
+      datasource:
+        nacos-degrade:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: degrade
+        nacos-flow:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: flow

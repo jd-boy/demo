@@ -1,19 +1,12 @@
-plugins {
-    id 'java'
-}
-
-group 'com.jz.example'
-version '0.0.1-SNAPSHOT'
-
-repositories {
-    mavenCentral()
+dependencyManagement {
+    imports {
+        mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:2021.0.1.0"
+    }
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-}
-
-test {
-    useJUnitPlatform()
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel"
+    implementation 'com.alibaba.csp:sentinel-datasource-nacos'
+//    implementation 'com.alibaba.csp:sentinel-cluster-client-default'
+//    implementation 'com.alibaba.csp:sentinel-cluster-server-default'
 }
