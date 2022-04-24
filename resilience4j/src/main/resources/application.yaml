@@ -1,3 +1,5 @@
+server:
+  port: 8001
 # 限流配置
 resilience4j.ratelimiter:
   instances:
