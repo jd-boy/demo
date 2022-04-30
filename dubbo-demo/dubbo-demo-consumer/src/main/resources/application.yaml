@@ -7,6 +7,7 @@ spring:
 dubbo:
   application:
     name: ${spring.application.name}
+    # 采用应用级服务发现
     service-discovery:
       migration: APPLICATION_FIRST
   registry:
