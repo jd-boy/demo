@@ -7,6 +7,8 @@ spring:
 dubbo:
   application:
     name: ${spring.application.name}
+    service-discovery:
+      migration: APPLICATION_FIRST
   registry:
     address: nacos://localhost:8848
     version: 1.0.0
