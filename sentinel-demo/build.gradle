@@ -1,9 +1,3 @@
-dependencyManagement {
-    imports {
-        mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:2021.0.1.0"
-    }
-}
-
 dependencies {
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel"
     implementation 'com.alibaba.csp:sentinel-datasource-nacos'

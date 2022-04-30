@@ -9,4 +9,8 @@ include 'jpa-demo'
 include 'guice-demo'
 include 'sentinel-demo'
 include 'rabbitmq-demo'
+include 'dubbo-demo'
+include 'dubbo-demo:dubbo-demo-api'
+include 'dubbo-demo:dubbo-demo-consumer'
+include 'dubbo-demo:dubbo-demo-provider'
 

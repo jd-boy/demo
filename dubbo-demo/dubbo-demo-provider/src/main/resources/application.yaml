@@ -1,0 +1,17 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: dubbo-demo-provider
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  protocol:
+    name: dubbo
+    port: 18002
+  registry:
+    address: nacos://localhost:8848
+    version: 1.0.0
+#  provider:
+#    group: dubbo-demo

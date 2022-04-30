@@ -1,0 +1,14 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: dubbo-demo-consumer
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+  registry:
+    address: nacos://localhost:8848
+    version: 1.0.0
+#  consumer:
+#    group: dubbo-demo

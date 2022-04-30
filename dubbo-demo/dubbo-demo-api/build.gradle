@@ -1,0 +1,7 @@
+bootJar {
+    enabled = false
+}
+
+dependencies {
+    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
+}

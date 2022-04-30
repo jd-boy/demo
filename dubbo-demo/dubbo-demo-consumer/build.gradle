@@ -1,0 +1,8 @@
+dependencies {
+    api project(':dubbo-demo:dubbo-demo-api')
+
+    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
+
+    implementation 'org.apache.dubbo:dubbo-registry-nacos'
+
+}

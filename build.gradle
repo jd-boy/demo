@@ -6,7 +6,7 @@ plugins {
 
 allprojects {
 
-	group = 'com.jz.example'
+	group = 'org.jd.demo'
 	version = '0.0.1-SNAPSHOT'
 
 }
@@ -29,6 +29,19 @@ subprojects {
 	if (project.name != 'guice-demo') {
 		apply plugin: 'org.springframework.boot'
 		apply plugin: 'io.spring.dependency-management'
+
+		dependencyManagement {
+			imports {
+//				mavenBom 'org.springframework.boot:spring-boot-dependencies:2.6.6'
+				mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:2021.0.1.0"
+//				mavenBom "org.apache.dubbo:dubbo-bom:3.0.7"
+			}
+
+			dependencies {
+				dependency 'org.apache.dubbo:dubbo-spring-boot-starter:3.0.7'
+				dependency 'org.apache.dubbo:dubbo-registry-nacos:3.0.7'
+			}
+		}
 
 		dependencies {
 			implementation 'org.springframework.boot:spring-boot-starter'
