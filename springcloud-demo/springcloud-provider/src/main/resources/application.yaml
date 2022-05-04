@@ -1,0 +1,11 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: spring-cloud-demo-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        group: springcloud

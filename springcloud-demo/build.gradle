@@ -1,9 +1,18 @@
 subprojects {
-    apply plugin: 'java'
-
     dependencyManagement {
         imports {
-            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2020.0.1'
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2021.0.2'
         }
+
+        dependencies {
+            // feign 使用 apache httpclient 版本需要与 feign-core 一致
+            dependency 'io.github.openfeign:feign-httpclient:11.8'
+        }
+    }
+
+    dependencies {
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+        implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
     }
 }

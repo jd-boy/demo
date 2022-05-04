@@ -1,0 +1,15 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: spring-cloud-demo-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        group: springcloud
+
+feign:
+  httpclient:
+    enabled: true
