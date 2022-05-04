@@ -13,4 +13,8 @@ include 'dubbo-demo'
 include 'dubbo-demo:dubbo-demo-api'
 include 'dubbo-demo:dubbo-demo-consumer'
 include 'dubbo-demo:dubbo-demo-provider'
+include 'springcloud-demo'
+include 'springcloud-demo:springcloud-provider'
+include 'springcloud-demo:springcloud-consumer'
+include 'springcloud-demo:springcloud-demo-api'
 

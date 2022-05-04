@@ -14,7 +14,6 @@ allprojects {
 subprojects {
 
 	apply plugin: 'idea'
-	apply plugin: 'java'   // 放到子模块中父模块不会生成 src目录
 	apply plugin: 'java-library'
 
 	repositories {
@@ -35,6 +34,10 @@ subprojects {
 //				mavenBom 'org.springframework.boot:spring-boot-dependencies:2.6.6'
 				mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:2021.0.1.0"
 //				mavenBom "org.apache.dubbo:dubbo-bom:3.0.7"
+
+//				if (project.name.startsWith('springcloud')) {
+//					mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2020.0.1'
+//				}
 			}
 
 			dependencies {

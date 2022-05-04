@@ -1,3 +1,7 @@
+plugins {
+    id 'java'
+}
+
 ext {
     mapstructVersion = '1.4.2.Final'
 }
