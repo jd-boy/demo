@@ -26,7 +26,7 @@ subprojects {
 		annotationProcessor 'org.projectlombok:lombok:1.18.18'
 	}
 
-	if (project.name != 'guice-demo') {
+	if (isSpringBootProject(project.name)) {
 		apply plugin: 'org.springframework.boot'
 		apply plugin: 'io.spring.dependency-management'
 
@@ -53,5 +53,18 @@ subprojects {
 		test {
 			useJUnitPlatform()
 		}
+	}
+}
+
+
+/**
+ * 判断项目是否使用SpringBoot相关依赖
+ * @param projectName
+ * @return
+ */
+def isSpringBootProject(String projectName) {
+	switch (projectName) {
+		case 'guice-demo': return false
+		default: return true
 	}
 }
