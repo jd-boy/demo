@@ -5,7 +5,41 @@ spring:
   application:
     name: spring-cloud-demo-provider
   cloud:
+    # 使用 Nacos 作为注册中心
     nacos:
       discovery:
         server-addr: localhost:8848
         group: springcloud
+    # 使用 Sentinel 进行流量控制
+    sentinel:
+      eager: true      # 取消控制台懒加载
+      transport:
+        port: 8731     # 上报给控制台的端口
+        dashboard: 127.0.0.1:8080        # 控制台地址
+      datasource:
+        nacos-degrade:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            namespace: sentinel
+            username: nacos
+            password: nacos
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP        # 需要与 Sentinel 控制台的 GroupId 一致
+            data-type: json
+            rule-type: degrade       # 降级规则
+        nacos-flow:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            namespace: sentinel
+            username: nacos
+            password: nacos
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP        # 需要与 Sentinel 控制台的 GroupId 一致
+            data-type: json
+            rule-type: flow       # 流控规则
+
+feign:
+#  httpclient:
+#    enabled: true
+  sentinel:
+    enabled: true       # 开启 Sentinel 对 Feign 的支持

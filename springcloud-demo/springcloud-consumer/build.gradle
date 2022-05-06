@@ -7,6 +7,11 @@ dependencies {
 
     // Feign 需要添加 loadbalancer 依赖
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    // feign 使用 httpclint 连接池
+//    implementation 'io.github.openfeign:feign-httpclient'
 
-    implementation 'io.github.openfeign:feign-httpclient'
+    // Sentinel 依赖
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel"
+    // 使用 Nacos 作为 Sentinel 数据源
+    implementation 'com.alibaba.csp:sentinel-datasource-nacos'
 }

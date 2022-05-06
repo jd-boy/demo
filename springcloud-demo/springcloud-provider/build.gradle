@@ -4,4 +4,9 @@ plugins {
 
 dependencies {
     implementation project(':springcloud-demo:springcloud-demo-api')
+
+    // Sentinel 依赖
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel"
+    // 使用 Nacos 作为 Sentinel 数据源
+    implementation 'com.alibaba.csp:sentinel-datasource-nacos'
 }
