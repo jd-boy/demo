@@ -1,19 +1,35 @@
 package com.jz.demo.lucene;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.*;
-
-import java.io.IOException;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.springframework.util.CollectionUtils;
 
 @Data
 @NoArgsConstructor
@@ -28,6 +44,8 @@ public class LPeopleDo {
     private String desc;
 
     private String stringValue;
+
+    private List<Integer> luckyNumber;
 
     /**
      * 保存到lucene
@@ -44,6 +62,16 @@ public class LPeopleDo {
         // 不分词，会索引，是否存储需要指定，同一个字段添加多次存储的值为第一次add，后续add值可作为索引
         document.add(new StringField(Fields.stringValue, stringValue, Field.Store.YES));
         document.add(new StringField(Fields.stringValue, "jjj" + id, Field.Store.YES));
+
+        if (!CollectionUtils.isEmpty(luckyNumber)) {
+//            StringBuilder sb = new StringBuilder();
+            for (Integer integer : luckyNumber) {
+//                sb.append('(').append(integer).append(')');
+                document.add(new TextField(Fields.luckyNumber, integer.toString(), Store.YES));
+//                document.add(new StoredField(Fields.luckyNumber, integer));
+            }
+//            document.add(new TextField(Fields.luckyNumber, sb.toString(), Store.YES));
+        }
         try {
             IndexWriter indexWriter = LuceneUtils.getIndexWriter();
             indexWriter.addDocument(document);
@@ -61,11 +89,13 @@ public class LPeopleDo {
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         QueryParser queryParser = new QueryParser(Fields.name, new SmartChineseAnalyzer());
         try {
-            builder.add(new BooleanClause(new TermQuery(new Term(Fields.desc, "stringValue3")), BooleanClause.Occur.SHOULD));
-            builder.add(queryParser.parse("张"), BooleanClause.Occur.MUST);
-            builder.add(IntPoint.newRangeQuery(Fields.id, 1, 5), BooleanClause.Occur.MUST);
+//            builder.add(new BooleanClause(new TermQuery(new Term(Fields.desc, "stringValue3")), BooleanClause.Occur.SHOULD));
+//            builder.add(queryParser.parse("张"), BooleanClause.Occur.MUST);
+//            builder.add(IntPoint.newRangeQuery(Fields.id, 1, 5), BooleanClause.Occur.MUST);
+            builder.add(new BooleanClause(new TermQuery(new Term(Fields.luckyNumber, "7")), BooleanClause.Occur.SHOULD));
+            builder.add(new BooleanClause(new TermQuery(new Term(Fields.luckyNumber, "10")), BooleanClause.Occur.SHOULD));
             find(builder.build());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -158,6 +188,10 @@ public class LPeopleDo {
                 System.out.println(Fields.name + " : " + document.get(Fields.name));
                 System.out.println(Fields.desc + " : " + document.get(Fields.desc));
                 System.out.println(Fields.stringValue + " : " + document.get(Fields.stringValue));
+                if (document.getValues(Fields.luckyNumber) != null) {
+                    System.out.println(Fields.luckyNumber + " : " + String
+                        .join(",", document.getValues(Fields.luckyNumber)));
+                }
                 System.out.println("-----------------------------");
             }
         } catch (Exception e) {
