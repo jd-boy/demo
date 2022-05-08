@@ -17,4 +17,5 @@ include 'springcloud-demo'
 include 'springcloud-demo:springcloud-provider'
 include 'springcloud-demo:springcloud-consumer'
 include 'springcloud-demo:springcloud-demo-api'
+include 'nacos-demo'
 

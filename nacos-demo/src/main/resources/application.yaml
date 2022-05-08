@@ -1,0 +1,21 @@
+server:
+  port: 8001
+spring:
+  application:
+    name: nacos-demo
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+        group: NACOS_GROUP
+        refresh-enabled: true
+
+config:
+  nacosConfigInfos:
+    - name: people-config
+      group: NACOS_GROUP
+      data-id: people-config.json
+      class-name: org.jd.demo.nacos.dto.PeopleDto
+      isList: true
