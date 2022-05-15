@@ -1,7 +1,5 @@
 package org.jd.demo.nacos.config;
 
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
@@ -10,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import javax.annotation.PostConstruct;
@@ -30,19 +27,17 @@ import org.springframework.util.StringUtils;
 @Component
 @ConfigurationProperties(prefix = "config")
 @RequiredArgsConstructor
-public class NacosAutoConfig {
+public class NacosAutoLoader {
+
+  @Getter
+  @Setter
+  private List<NacosConfigInfo> nacosConfigInfos = new ArrayList<>();
 
   private final static Executor EXECUTOR = Executors.newSingleThreadExecutor(r -> new Thread(r, "nacos-config-refresh"));
 
   private final ObjectMapper objectMapper;
 
-  private final NacosServiceInfo nacosServiceInfo;
-
-  private ConfigService configService;
-
-  @Getter
-  @Setter
-  private List<NacosConfigInfo> nacosConfigInfos = new ArrayList<>();
+  private final ConfigService configService;
 
   private Map<String, Object> configInfoMap;
 
@@ -52,13 +47,6 @@ public class NacosAutoConfig {
 
   @PostConstruct
   private void init() throws NacosException {
-    Properties properties = new Properties();
-    properties.put(PropertyKeyConst.SERVER_ADDR, nacosServiceInfo.getServerAddr());
-    properties.put(PropertyKeyConst.USERNAME, nacosServiceInfo.getUsername());
-    properties.put(PropertyKeyConst.PASSWORD, nacosServiceInfo.getPassword());
-    properties.put(PropertyKeyConst.NAMESPACE, nacosServiceInfo.getNamespace());
-    configService = NacosFactory.createConfigService(properties);
-
     this.configInfoMap = new HashMap<>(nacosConfigInfos.size());
     for (NacosConfigInfo nacosConfigInfo : nacosConfigInfos) {
       addListener(nacosConfigInfo);
@@ -67,8 +55,9 @@ public class NacosAutoConfig {
 
   @SneakyThrows
   private void addListener(NacosConfigInfo configInfo) {
-    configService.addListener(configInfo.getDataId(), configInfo.getGroup(),
-        new NacosConfigListener(configInfo));
+    Listener listener = new NacosConfigListener(configInfo);
+    listener.receiveConfigInfo(configService.getConfigAndSignListener(configInfo.getDataId(), configInfo.getGroup(),
+        1000, listener));
   }
 
   private class NacosConfigListener implements Listener {
