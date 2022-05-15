@@ -38,7 +38,7 @@ public class RedisConfiguration {
         vertx,
         redisOptions()
     );
-    tryConnect(redis, 5);
+//    tryConnect(redis, 5);
     return redis;
   }
 
