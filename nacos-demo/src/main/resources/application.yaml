@@ -11,11 +11,3 @@ spring:
         password: nacos
         group: NACOS_GROUP
         refresh-enabled: true
-
-config:
-  nacosConfigInfos:
-    - name: people-config
-      group: NACOS_GROUP
-      data-id: people-config.json
-      class-name: org.jd.demo.nacos.dto.PeopleDto
-      isList: true

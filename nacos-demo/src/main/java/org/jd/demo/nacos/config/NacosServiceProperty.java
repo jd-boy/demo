@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "spring.cloud.nacos.config")
-public class NacosServiceInfo {
+public class NacosServiceProperty {
 
   private String serverAddr;
 

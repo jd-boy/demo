@@ -18,12 +18,12 @@ public class AutoConfiguration {
 
   @Bean
   @SneakyThrows
-  public ConfigService configService(NacosServiceInfo nacosServiceInfo) {
+  public ConfigService configService(NacosServiceProperty nacosServiceProperty) {
     Properties properties = new Properties();
-    properties.put(PropertyKeyConst.SERVER_ADDR, nacosServiceInfo.getServerAddr());
-    properties.put(PropertyKeyConst.USERNAME, nacosServiceInfo.getUsername());
-    properties.put(PropertyKeyConst.PASSWORD, nacosServiceInfo.getPassword());
-    properties.put(PropertyKeyConst.NAMESPACE, nacosServiceInfo.getNamespace());
+    properties.put(PropertyKeyConst.SERVER_ADDR, nacosServiceProperty.getServerAddr());
+    properties.put(PropertyKeyConst.USERNAME, nacosServiceProperty.getUsername());
+    properties.put(PropertyKeyConst.PASSWORD, nacosServiceProperty.getPassword());
+    properties.put(PropertyKeyConst.NAMESPACE, nacosServiceProperty.getNamespace());
     return NacosFactory.createConfigService(properties);
   }
 
