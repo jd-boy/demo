@@ -2,19 +2,19 @@ package org.jd.demo.nacos.config.impl;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.jd.demo.nacos.config.ConfigLoader;
-import org.jd.demo.nacos.config.NacosConfigLoader;
+import org.jd.demo.nacos.config.ConfigListener;
+import org.jd.demo.nacos.config.NacosConfigListener;
 import org.jd.demo.nacos.dto.PeopleDto;
 
 /**
  * @Auther jd
  */
 @Slf4j
-@NacosConfigLoader(
+@NacosConfigListener(
     name = "people-config",
     group = "NACOS_GROUP",
     dataId = "people-config.json")
-public class PeopleConfigLoader implements ConfigLoader<List<PeopleDto>> {
+public class PeopleConfigListener implements ConfigListener<List<PeopleDto>> {
 
   @Override
   public void loadConfig(List<PeopleDto> config) {

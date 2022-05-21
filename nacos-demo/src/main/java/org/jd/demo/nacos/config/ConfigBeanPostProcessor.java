@@ -3,7 +3,6 @@ package org.jd.demo.nacos.config;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -37,25 +36,25 @@ public class ConfigBeanPostProcessor implements BeanPostProcessor, EnvironmentAw
   @SneakyThrows
   @Override
   public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-    if (!(bean instanceof ConfigLoader)) {
+    if (!(bean instanceof ConfigListener)) {
       return bean;
     }
     Class<?> clazz = bean.getClass();
-    NacosConfigLoader nacosConfigLoader = clazz.getAnnotation(NacosConfigLoader.class);
-    if (nacosConfigLoader == null) {
+    NacosConfigListener nacosConfigListener = clazz.getAnnotation(NacosConfigListener.class);
+    if (nacosConfigListener == null) {
       return bean;
     }
     Type type = null;
     for (Type genericInterface : clazz.getGenericInterfaces()) {
       String typeName = genericInterface.getTypeName();
       typeName = typeName.substring(0, genericInterface.getTypeName().indexOf('<'));
-      if (ConfigLoader.class.getTypeName().equals(typeName)) {
+      if (ConfigListener.class.getTypeName().equals(typeName)) {
         type = genericInterface;
         break;
       }
     }
 
-    ConfigInfo configInfo = buildConfigInfo(nacosConfigLoader);
+    ConfigInfo configInfo = buildConfigInfo(nacosConfigListener);
 
     Type targetType = ((ParameterizedType) type).getActualTypeArguments()[0];
     configInfo.setConverter(str -> {
@@ -67,7 +66,7 @@ public class ConfigBeanPostProcessor implements BeanPostProcessor, EnvironmentAw
       }
       return null;
     });
-    Listener listener = new NacosConfigListener(configInfo, (ConfigLoader<?>) bean, EXECUTOR);
+    Listener listener = new NacosConfigRefreshListener(configInfo, (ConfigListener<?>) bean, EXECUTOR);
 
     listener.receiveConfigInfo(
         configService.getConfigAndSignListener(configInfo.getDataId(), configInfo.getGroup(),
@@ -76,11 +75,11 @@ public class ConfigBeanPostProcessor implements BeanPostProcessor, EnvironmentAw
     return bean;
   }
 
-  private ConfigInfo buildConfigInfo(NacosConfigLoader nacosConfigLoader) {
+  private ConfigInfo buildConfigInfo(NacosConfigListener nacosConfigListener) {
     return ConfigInfo.builder()
-        .name(nacosConfigLoader.name())
-        .group(environment.resolvePlaceholders(nacosConfigLoader.group()))
-        .dataId(environment.resolvePlaceholders(nacosConfigLoader.dataId()))
+        .name(nacosConfigListener.name())
+        .group(environment.resolvePlaceholders(nacosConfigListener.group()))
+        .dataId(environment.resolvePlaceholders(nacosConfigListener.dataId()))
         .build();
   }
 
@@ -93,18 +92,18 @@ public class ConfigBeanPostProcessor implements BeanPostProcessor, EnvironmentAw
 
 
   @Slf4j
-  static class NacosConfigListener implements Listener {
+  static class NacosConfigRefreshListener implements Listener {
 
     private final Executor executor;
 
-    private final ConfigLoader configLoader;
+    private final ConfigListener configListener;
 
     private final ConfigInfo configInfo;
 
-    public NacosConfigListener(ConfigInfo configInfo, ConfigLoader<?> configLoader, Executor executor) {
+    public NacosConfigRefreshListener(ConfigInfo configInfo, ConfigListener<?> configListener, Executor executor) {
       this.executor = executor;
       this.configInfo = configInfo;
-      this.configLoader = configLoader;
+      this.configListener = configListener;
     }
 
     @Override
@@ -117,7 +116,7 @@ public class ConfigBeanPostProcessor implements BeanPostProcessor, EnvironmentAw
     public void receiveConfigInfo(String configInfoStr) {
       log.info("group：{} dataId：{} update {} 配置：{}", configInfo.getGroup(), configInfo.getDataId(),
           configInfo.getName(), configInfoStr);
-      configLoader.loadConfig(configInfo.getConverter().apply(configInfoStr));
+      configListener.loadConfig(configInfo.getConverter().apply(configInfoStr));
     }
 
   }

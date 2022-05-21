@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Documented
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NacosConfigLoader {
+public @interface NacosConfigListener {
 
   /**
    * 配置名称
