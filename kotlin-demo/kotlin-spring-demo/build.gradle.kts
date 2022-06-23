@@ -11,7 +11,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     // 使用Jackson序列化或反序列化 Kotlin 类的 JSON 数据所必需的
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-//    implementation(fileTree())
 
 
     implementation("org.springframework.boot:spring-boot-starter-web")
