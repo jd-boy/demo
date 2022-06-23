@@ -18,4 +18,6 @@ include 'springcloud-demo:springcloud-provider'
 include 'springcloud-demo:springcloud-consumer'
 include 'springcloud-demo:springcloud-demo-api'
 include 'nacos-demo'
+include 'kotlin-demo'
+include 'kotlin-demo:kotlin-spring-demo'
 

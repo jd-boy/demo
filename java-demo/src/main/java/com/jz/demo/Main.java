@@ -1,7 +1,14 @@
 package com.jz.demo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
+import lombok.SneakyThrows;
 
 public class Main {
 
@@ -9,18 +16,13 @@ public class Main {
 
 //    private static CompletionService<Object> completionService = new ExecutorCompletionService<>();
 
-    public static void main(String[] args) throws InterruptedException {
-        AtomicReference<Thread> a = new AtomicReference<>();
-        Future task = executorService.submit(() -> {
-            a.set(Thread.currentThread());
-            System.out.println("开始");
-            while (!Thread.currentThread().isInterrupted()) {
-                System.out.println("-----");
-            }
-            System.out.println("end");
-        });
-        Thread.sleep(1000);
-        System.out.println("start cancel");
+    @SneakyThrows
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>() {{
+            put("1", "a.b");
+        }};
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(objectMapper.writeValueAsString(map));
     }
 
 }
