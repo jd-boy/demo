@@ -9,6 +9,8 @@ ext {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+    implementation 'org.jd.zeus:zeus-vertx-springboot-starter:0.0.1-SNAPSHOT'
+
     implementation "io.vertx:vertx-core:${vertxVersion}"
     implementation "io.vertx:vertx-web:${vertxVersion}"
     implementation "io.vertx:vertx-web-client:${vertxVersion}"

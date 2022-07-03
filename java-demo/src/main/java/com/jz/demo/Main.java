@@ -14,15 +14,48 @@ public class Main {
 
     private static ExecutorService executorService = new ThreadPoolExecutor(2, 2, 30, TimeUnit.SECONDS, new ArrayBlockingQueue<>(8));
 
-//    private static CompletionService<Object> completionService = new ExecutorCompletionService<>();
-
+    public static class ListNode {
+          int val;
+          ListNode next;
+          ListNode() {}
+          ListNode(int val) { this.val = val; }
+          ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     }
     @SneakyThrows
     public static void main(String[] args) {
-        Map<String, String> map = new HashMap<>() {{
-            put("1", "a.b");
-        }};
-        ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(objectMapper.writeValueAsString(map));
+        ListNode l1 = new ListNode(2);
+        l1.next = new ListNode(4);
+        l1.next.next = new ListNode(9);
+        ListNode l2 = new ListNode(5);
+        l2.next = new ListNode(6);
+        l2.next.next = new ListNode(4);
+        l2.next.next.next = new ListNode(9);
+        int result = toNum(l1, 1) + toNum(l2, 1);
+        toListNodes(result);
     }
 
+    public static ListNode toListNodes(int num) {
+        int n = 0;
+        ListNode root = new ListNode();
+        ListNode node = root;
+        do {
+            n = num % 10;
+            node.val = n;
+            num /= 10;
+            if (num == 0) {
+                node.next = null;
+            } else {
+                node.next = new ListNode();
+                node = node.next;
+            }
+        } while (num > 0);
+        return root;
+    }
+
+    public static int toNum(ListNode root, int n) {
+        if (root.next == null) {
+            return root.val * n;
+        }
+        return toNum(root.next, n * 10);
+    }
 }

@@ -1,12 +1,12 @@
 package com.jz.demo.vertx.controller;
 
-import com.jz.demo.vertx.core.AbstractVertxController;
-import com.jz.demo.vertx.core.VertxController;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.redis.client.Command;
 import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.Request;
+import org.jd.zeus.vertx.springboot.core.AbstractHttpVertxVerticle;
+import org.jd.zeus.vertx.springboot.core.VertxController;
 
 /**
  * @Auther jd
@@ -14,7 +14,7 @@ import io.vertx.redis.client.Request;
 @VertxController(
     path = "/test/redis"
 )
-public class RedisTestVertxController extends AbstractVertxController {
+public class RedisTestVertxController extends AbstractHttpVertxVerticle {
 
   private final Redis redis;
 

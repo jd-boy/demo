@@ -1,8 +1,5 @@
 package com.jz.demo.vertx.controller;
 
-import com.jz.demo.vertx.core.AbstractVertxController;
-import com.jz.demo.vertx.core.VertxController;
-import com.jz.demo.vertx.core.VertxHttpMethod;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.Json;
@@ -15,6 +12,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.jd.zeus.vertx.springboot.core.AbstractHttpVertxVerticle;
+import org.jd.zeus.vertx.springboot.core.VertxController;
+import org.jd.zeus.vertx.springboot.core.VertxHttpMethod;
 
 /**
  * @Auther jd
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
     method = VertxHttpMethod.GET,
     instanceNum = "3"
 )
-public class DBTestVertxController extends AbstractVertxController {
+public class DBTestVertxController extends AbstractHttpVertxVerticle {
 
   private final MySQLPool mysqlPool;
 

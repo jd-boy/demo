@@ -1,11 +1,10 @@
 package com.jz.demo.vertx.controller;
 
-import com.jz.demo.vertx.core.AbstractVertxController;
-import com.jz.demo.vertx.core.VertxController;
-import com.jz.demo.vertx.core.VertxHttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import org.jd.zeus.vertx.springboot.core.AbstractHttpVertxVerticle;
+import org.jd.zeus.vertx.springboot.core.VertxController;
 
 /**
  * @Auther jd
@@ -16,7 +15,7 @@ import io.vertx.ext.web.RoutingContext;
     permitsPerSecond = "1",
     acquirePermitsTimeoutNanos = "10000"
 )
-public class TestVertxController extends AbstractVertxController {
+public class TestVertxController extends AbstractHttpVertxVerticle {
 
   public TestVertxController(Router router) {
     super(router);
