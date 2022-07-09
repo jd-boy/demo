@@ -1,5 +1,6 @@
-package com.jz.demo.database.mysql;
+package com.jz.demo.database.controller;
 
+import com.jz.demo.database.service.MysqlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,5 +14,10 @@ public class MysqlController {
     @GetMapping("/api/m/test")
     public void test() {
         mysqlService.test();
+    }
+
+    @GetMapping("/api/database/event-test")
+    public void eventTest() {
+        mysqlService.testEventTransactional();
     }
 }

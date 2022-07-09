@@ -1,8 +1,12 @@
-package com.jz.demo.database.mysql;
+package com.jz.demo.database.service;
 
+import com.jz.demo.database.dao.TestDao;
+import com.jz.demo.database.event.UpdateEvent;
+import com.jz.demo.database.po.PeoplePo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +21,9 @@ public class MysqlService {
     @Autowired
     private TestDao testDao;
 
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
     @Transactional
     public void test() {
         testDao.selectName(1);
@@ -30,6 +37,14 @@ public class MysqlService {
             e.printStackTrace();
         }
         log.info("睡眠结束");
+    }
+
+    @Transactional
+    public void testEventTransactional() {
+        PeoplePo po = new PeoplePo("张三");
+        testDao.insert(po);
+        log.info("事件发布线程：{}", Thread.currentThread().getName());
+        eventPublisher.publishEvent(new UpdateEvent(po));
     }
 
 }
