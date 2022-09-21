@@ -1,5 +1,8 @@
 package com.jz.demo.vertx.controller;
 
+import com.jz.demo.vertx.autoconfig.AbstractHttpVertxVerticle;
+import com.jz.demo.vertx.autoconfig.VertxController;
+import com.jz.demo.vertx.autoconfig.VertxHttpMethod;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.Json;
@@ -12,9 +15,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.jd.zeus.vertx.springboot.core.AbstractHttpVertxVerticle;
-import org.jd.zeus.vertx.springboot.core.VertxController;
-import org.jd.zeus.vertx.springboot.core.VertxHttpMethod;
 
 /**
  * @Auther jd

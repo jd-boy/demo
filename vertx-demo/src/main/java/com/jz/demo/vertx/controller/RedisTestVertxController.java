@@ -1,12 +1,12 @@
 package com.jz.demo.vertx.controller;
 
+import com.jz.demo.vertx.autoconfig.AbstractHttpVertxVerticle;
+import com.jz.demo.vertx.autoconfig.VertxController;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.redis.client.Command;
 import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.Request;
-import org.jd.zeus.vertx.springboot.core.AbstractHttpVertxVerticle;
-import org.jd.zeus.vertx.springboot.core.VertxController;
 
 /**
  * @Auther jd
