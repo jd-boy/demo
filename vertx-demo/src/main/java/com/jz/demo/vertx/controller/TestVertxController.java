@@ -49,6 +49,7 @@ public class TestVertxController extends AbstractHttpVertxVerticle {
     StopWatch stopWatch = new StopWatch();
     stopWatch.start();
     long timeout = Long.parseLong(context.queryParam("timeout").get(0));
+    
     webClient.get(8001, "127.0.0.1", "/api/vertx/client/test1?timeout=" + timeout)
         .timeout(5000)
         .send()

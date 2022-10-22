@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,10 +47,20 @@ public class VertxWebClientController {
         return "发出请求";
     }
 
-    @GetMapping(value = "/test1")
-    public String test1(@RequestParam int timeout) throws InterruptedException {
-        Thread.sleep(timeout);
-        return "成功";
+    @PostMapping(value = "/test1")
+    public String test1() throws InterruptedException {
+        Thread.sleep(1000);
+        return "{\n" +
+            "    \"msg\": \"SUCCESS\",\n" +
+            "    \"requestId\": \"112233\",\n" +
+            "    \"status\": 1,\n" +
+            "    \"mtlScore\": {\n" +
+            "        \"001\": 0.5384307,\n" +
+            "        \"002\": 0.028265351\n" +
+            "    },\n" +
+            "    \"inCache\": false,\n" +
+            "    \"embeddingNum\": 64\n" +
+            "}";
     }
 
 }
