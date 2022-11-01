@@ -40,6 +40,7 @@ subprojects {
 			dependencies {
 				dependency 'org.apache.dubbo:dubbo-spring-boot-starter:3.0.7'
 				dependency 'org.apache.dubbo:dubbo-registry-nacos:3.0.7'
+				dependency 'com.alibaba.fastjson2:fastjson2:2.0.16'
 			}
 		}
 

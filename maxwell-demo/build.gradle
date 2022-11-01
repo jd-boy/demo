@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'org.jd'
+version '1.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'mysql:mysql-connector-java'
+    implementation 'com.alibaba.fastjson2:fastjson2'
+}
