@@ -1,16 +1,11 @@
 package org.jd.demo.io.reactor.single;
 
-import com.jz.demo.io.reactor.*;
 import lombok.extern.slf4j.Slf4j;
+import org.jd.demo.io.reactor.*;
 
 import java.nio.channels.SelectionKey;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import org.jd.demo.io.reactor.AbstractDispacther;
-import org.jd.demo.io.reactor.Acceptor;
-import org.jd.demo.io.reactor.CurrentThreadExecutor;
-import org.jd.demo.io.reactor.NamedThreadFactory;
-import org.jd.demo.io.reactor.SocketHandler;
 
 /**
  * 单Reactor模式调度器

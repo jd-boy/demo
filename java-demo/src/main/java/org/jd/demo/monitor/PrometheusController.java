@@ -1,4 +1,4 @@
-package org.jd.demo.prometheus;
+package org.jd.demo.monitor;
 
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Counter;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 
 @RestController
-@RequestMapping(value = "/prometheus/")
+@RequestMapping(value = "/api/prometheus/")
 @RequiredArgsConstructor
 public class PrometheusController {
 
