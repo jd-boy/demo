@@ -1,5 +1,23 @@
 server:
   port: 8001
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+      tags: ${spring.application.name}
+
 # 限流配置
 resilience4j.ratelimiter:
   instances:
@@ -52,7 +70,7 @@ resilience4j.retry:
 #        - org.springframework.web.client.HttpServerErrorException
 #        - java.io.IOException
       ignoreExceptions:
-        - com.jz.demo.resilience4j.exceptions.IgnoreException
+        - org.jd.demo.resilience4j.exceptions.IgnoreException
     backendB:
       maxAttempts: 3
       waitDuration: 10s
@@ -60,4 +78,4 @@ resilience4j.retry:
         - org.springframework.web.client.HttpServerErrorException
         - java.io.IOException
       ignoreExceptions:
-        - com.jz.demo.resilience4j.exceptions.IgnoreException
+        - org.jd.demo.resilience4j.exceptions.IgnoreException

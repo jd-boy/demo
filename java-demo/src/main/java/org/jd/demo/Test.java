@@ -1,5 +1,7 @@
 package org.jd.demo;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -15,15 +17,7 @@ public class Test {
     private static final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws Exception {
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
-        executor.scheduleAtFixedRate(() -> {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println(Thread.currentThread().getName() + ":   " + new Date());
-        }, 1, 1, TimeUnit.SECONDS);
-
+        var a = BinaryUtils.byteToUnsignedInt((byte) -2);
+        System.out.println(Integer.toBinaryString(a));
     }
 }

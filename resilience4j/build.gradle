@@ -7,7 +7,10 @@ ext{
 }
 
 dependencies {
-//    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation('org.springframework.boot:spring-boot-starter-aop')
     implementation("io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}")
+
+    implementation 'io.micrometer:micrometer-core'
+    compileOnly("io.github.resilience4j:resilience4j-micrometer:${resilience4jVersion}")
 }
