@@ -1,23 +1,55 @@
 package org.jd.demo;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.SneakyThrows;
 
 public class Test {
 
-    private static final Logger logger = LogManager.getLogger(Test.class);
+    private static int count;
 
-    private static final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+    private static Object aa = new Object();
 
-    public static void main(String[] args) throws Exception {
-        var a = BinaryUtils.byteToUnsignedInt((byte) -2);
-        System.out.println(Integer.toBinaryString(a));
+    @SneakyThrows
+    public static void main(String[] args) {
+        new Thread(() -> {
+            try {
+                while (print()) {
+                    synchronized (aa) {
+                        aa.notify();
+                        aa.wait();
+                    }
+                }
+                synchronized (aa) {
+                    aa.notifyAll();
+                }
+            } catch (Exception e){
+
+            }
+        }, "A").start();
+
+
+        new Thread(() -> {
+            try {
+                synchronized (aa) {
+                    aa.wait();
+                }
+                while (print()) {
+                    synchronized (aa) {
+                        aa.notify();
+                        aa.wait();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, "B").start();
     }
+
+    private static boolean print() {
+        if (count >= 100) {
+            return false;
+        }
+        System.out.printf("%s = %d\n", Thread.currentThread().getName(), ++count);
+        return true;
+    }
+
 }
