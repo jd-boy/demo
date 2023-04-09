@@ -1,6 +1,7 @@
 package org.jd.demo.beansearcher.sbean;
 
 import cn.zhxu.bs.bean.DbField;
+import cn.zhxu.bs.bean.SearchBean;
 import cn.zhxu.bs.operator.Contain;
 import cn.zhxu.bs.operator.StartWith;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 /**
  * 带冗余后缀的实体类
  */
+@SearchBean(tables = "employee")
 public class EmployeeVO extends BaseBean {
 
   @DbField(onlyOn = { StartWith.class, Contain.class })

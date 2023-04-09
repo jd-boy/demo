@@ -1,0 +1,6 @@
+GET localhost:8080/api/beansearcher/dfield
+Content-Type: application/json
+
+### 测试动态查询条件
+GET localhost:8080/api/beansearcher/index
+Content-Type: application/json

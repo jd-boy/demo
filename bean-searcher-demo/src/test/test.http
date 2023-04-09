@@ -1,6 +1,0 @@
-GET localhost:8080/api/beansearcher/dfield
-Content-Type: application/json
-
-{
-  "name": "jjj"
-}
