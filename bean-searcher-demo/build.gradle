@@ -1,0 +1,8 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    implementation 'com.h2database:h2:2.1.214'
+    implementation 'cn.zhxu:bean-searcher-boot-starter:4.1.2'
+}

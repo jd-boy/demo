@@ -21,4 +21,5 @@ include 'nacos-demo'
 include 'kotlin-demo'
 include 'kotlin-demo:kotlin-spring-demo'
 include 'maxwell-demo'
+include 'bean-searcher-demo'
 
