@@ -39,8 +39,9 @@ public class Resilience4jTest {
 //                  .onFailure(throwable -> System.out.printf("第 %d 次失败，断路器状态：%s，异常:%s\n", ii, brek1.getState(), throwable.getMessage()))
 //                  .onSuccess(o -> System.out.printf("第 %d 次成功，断路器状态：%s\n", ii, brek1.getState()));
 
-            try {
-                brek1.acquirePermission();
+//            try {
+//                brek1.acquirePermission();
+            System.out.println("尝试结果：" + brek1.tryAcquirePermission());
                 if (ii >= 10) {
                     brek1.onSuccess(1, brek1.getTimestampUnit());
                     System.out.printf("第 %d 次成功，断路器状态：%s\n", ii, brek1.getState());
@@ -48,9 +49,9 @@ public class Resilience4jTest {
                     brek1.onError(1, brek1.getTimestampUnit(), new RuntimeException("ijidf"));
                     System.out.printf("第 %d 次失败，断路器状态：%s\n", ii, brek1.getState());
                 }
-            } catch (Throwable throwable) {
-
-            }
+//            } catch (Throwable throwable) {
+//
+//            }
         }
     }
 

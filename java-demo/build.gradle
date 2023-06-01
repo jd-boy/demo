@@ -25,7 +25,10 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 
-    implementation 'io.netty:netty-all:4.1.72.Final'
+    implementation 'io.netty:netty-all:4.1.91.Final'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+
 }
 
 configurations.all {
